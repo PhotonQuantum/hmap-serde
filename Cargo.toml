@@ -8,6 +8,7 @@ license = "MIT"
 keywords = ["frunk", "hlist", "heterogeneous", "map", "serialization"]
 repository = "https://github.com/PhotonQuantum/hmap-serde"
 readme = "README.md"
+exclude = [".github/*", ".mergify.yml", "rust-toolchain.toml"]
 
 [dependencies]
 derive_more = { version = "0.99", features = ["deref", "deref_mut"], default-features = false }
