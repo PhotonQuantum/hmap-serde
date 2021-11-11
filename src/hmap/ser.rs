@@ -1,11 +1,11 @@
 use frunk_core::hlist::{HCons, HList, HNil};
+use ref_cast::RefCast;
 use serde::ser::SerializeMap;
 use serde::{Serialize, Serializer};
 
-use super::HMapRef;
+use crate::HMap;
 
-// TODO Serialize for HMap
-impl<'a, T> Serialize for HMapRef<'a, T>
+impl<T> Serialize for HMap<T>
 where
     T: HList,
     Self: MapSerializable,
@@ -24,34 +24,34 @@ pub trait MapSerializable {
     fn serialize_map<S: SerializeMap>(&self, serializer: &mut S) -> Result<(), S::Error>;
 }
 
-impl<'a, K, V, T> MapSerializable for HMapRef<'a, HCons<(K, V), T>>
+impl<K, V, T> MapSerializable for HMap<HCons<(K, V), T>>
 where
     K: Serialize,
     V: Serialize,
-    HMapRef<'a, T>: MapSerializable,
+    HMap<T>: MapSerializable,
 {
     fn serialize_map<S: SerializeMap>(&self, serializer: &mut S) -> Result<(), S::Error> {
         let (k, v) = &self.0.head;
         serializer.serialize_entry(k, v)?;
-        HMapRef(&self.0.tail).serialize_map(serializer)
+        HMap::ref_cast(&self.0.tail).serialize_map(serializer)
     }
 }
 
-impl<'a, K, V, T> MapSerializable for HMapRef<'a, HCons<Option<(K, V)>, T>>
+impl<K, V, T> MapSerializable for HMap<HCons<Option<(K, V)>, T>>
 where
     K: Serialize,
     V: Serialize,
-    HMapRef<'a, T>: MapSerializable,
+    HMap<T>: MapSerializable,
 {
     fn serialize_map<S: SerializeMap>(&self, serializer: &mut S) -> Result<(), S::Error> {
         if let Some((k, v)) = &self.0.head {
             serializer.serialize_entry(k, v)?;
         }
-        HMapRef(&self.0.tail).serialize_map(serializer)
+        HMap::ref_cast(&self.0.tail).serialize_map(serializer)
     }
 }
 
-impl MapSerializable for HMapRef<'_, HNil> {
+impl MapSerializable for HMap<HNil> {
     fn serialize_map<S: SerializeMap>(&self, _serializer: &mut S) -> Result<(), S::Error> {
         Ok(())
     }

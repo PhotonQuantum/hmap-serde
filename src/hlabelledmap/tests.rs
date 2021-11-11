@@ -41,7 +41,8 @@ fn must_serialize_to_json() {
         },
         C { c: 2 }
     ];
-    let s = serde_json::to_string(&HLabelledMap(l).as_ref()).expect("unable to serialize to json");
+    let m = HLabelledMap(l);
+    let s = serde_json::to_string(&m).expect("unable to serialize to json");
     assert_eq!(
         s,
         "{\"a\":{\"a\":1},\"b\":{\"b1\":\"test\",\"b2\":false},\"c\":{\"c\":2}}"
@@ -60,7 +61,7 @@ fn must_ser_de_refl_without_option() {
         A { a: 1 }
     ];
     let m = HLabelledMap(l);
-    let ser = serde_json::to_string(&m.as_ref()).expect("unable to serialize to json");
+    let ser = serde_json::to_string(&m).expect("unable to serialize to json");
     let de: HLabelledMap<List> =
         serde_json::from_str(ser.as_str()).expect("unable to deserialize from json");
     assert_eq!(m, de, "ser_de_refl doesn't hold");
@@ -78,7 +79,7 @@ fn must_ser_de_refl_with_option() {
         A { a: 1 }
     ];
     let m = HLabelledMap(l);
-    let ser = serde_json::to_string(&m.as_ref()).expect("unable to serialize to json");
+    let ser = serde_json::to_string(&m).expect("unable to serialize to json");
     let de: HLabelledMap<List> =
         serde_json::from_str(ser.as_str()).expect("unable to deserialize from json");
     assert_eq!(m, de, "ser_de_refl doesn't hold");
@@ -87,7 +88,8 @@ fn must_ser_de_refl_with_option() {
 #[test]
 fn must_serialize_skip_none() {
     let l = hlist![None::<A>, C { c: 2 }];
-    let s = serde_json::to_string(&HLabelledMap(l).as_ref()).expect("unable to serialize to json");
+    let m = HLabelledMap(l);
+    let s = serde_json::to_string(&m).expect("unable to serialize to json");
     assert_eq!(s, "{\"c\":{\"c\":2}}");
 }
 
@@ -95,7 +97,7 @@ fn must_serialize_skip_none() {
 fn must_deserialize_skip_none() {
     let l = hlist![A { a: 1 }, C { c: 2 }];
     let m = HLabelledMap(l);
-    let ser = serde_json::to_string(&m.as_ref()).expect("unable to serialize to json");
+    let ser = serde_json::to_string(&m).expect("unable to serialize to json");
     let de: HLabelledMap<HList![Option<B>, C]> =
         serde_json::from_str(ser.as_str()).expect("unable to deserialize from json");
     assert_eq!(de, HLabelledMap(hlist![None, C { c: 2 }]));
@@ -105,7 +107,7 @@ fn must_deserialize_skip_none() {
 fn must_deserialize_unordered() {
     let l = hlist![A { a: 1 }, C { c: 2 }];
     let m = HLabelledMap(l);
-    let ser = serde_json::to_string(&m.as_ref()).expect("unable to serialize to json");
+    let ser = serde_json::to_string(&m).expect("unable to serialize to json");
     let de: HLabelledMap<HList![C, A]> =
         serde_json::from_str(ser.as_str()).expect("unable to deserialize from json");
     assert_eq!(de, HLabelledMap(hlist![C { c: 2 }, A { a: 1 }]));

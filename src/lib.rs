@@ -1,5 +1,5 @@
-pub use hlabelledmap::{HLabelledMap, HLabelledMapRef, Labelled};
-pub use hmap::{HMap, HMapRef};
+pub use hlabelledmap::{HLabelledMap, Labelled};
+pub use hmap::HMap;
 
 mod hlabelledmap;
 mod hmap;

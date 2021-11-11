@@ -1,21 +1,15 @@
+use derive_more::{Deref, DerefMut};
 use frunk_core::hlist::HNil;
+use ref_cast::RefCast;
 
 mod de;
 mod ser;
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, RefCast, Deref, DerefMut)]
+#[repr(transparent)]
 pub struct HMap<T>(pub T);
-
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
-pub struct HMapRef<'a, T>(pub &'a T);
-
-impl<T> HMap<T> {
-    pub const fn as_ref(&self) -> HMapRef<T> {
-        HMapRef(&self.0)
-    }
-}
 
 impl Default for HMap<HNil> {
     fn default() -> Self {

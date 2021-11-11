@@ -1,4 +1,6 @@
+use derive_more::{Deref, DerefMut};
 use frunk_core::hlist::HNil;
+use ref_cast::RefCast;
 
 mod convert;
 mod de;
@@ -10,17 +12,9 @@ pub trait Labelled {
     const KEY: &'static str;
 }
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, RefCast, Deref, DerefMut)]
+#[repr(transparent)]
 pub struct HLabelledMap<T>(pub T);
-
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
-pub struct HLabelledMapRef<'a, T>(pub &'a T);
-
-impl<T> HLabelledMap<T> {
-    pub const fn as_ref(&self) -> HLabelledMapRef<T> {
-        HLabelledMapRef(&self.0)
-    }
-}
 
 impl Default for HLabelledMap<HNil> {
     fn default() -> Self {

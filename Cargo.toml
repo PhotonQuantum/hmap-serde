@@ -1,6 +1,6 @@
 [package]
 name = "hmap-serde"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 edition = "2021"
 authors = ["LightQuantum <self@lightquantum.me>"]
 description = "Serialize/deserialize heterogeneous maps."
@@ -10,7 +10,9 @@ repository = "https://github.com/PhotonQuantum/hmap-serde"
 readme = "README.md"
 
 [dependencies]
+derive_more = { version = "0.99", features = ["deref", "deref_mut"], default-features = false }
 frunk_core = "0.4"
+ref-cast = "1.0"
 serde = "1.0"
 
 [dev-dependencies]
