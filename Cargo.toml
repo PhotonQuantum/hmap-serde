@@ -1,6 +1,6 @@
 [package]
 name = "hmap-serde"
-version = "0.1.0-alpha.2"
+version = "0.1.0-alpha.3"
 edition = "2021"
 authors = ["LightQuantum <self@lightquantum.me>"]
 description = "Serialize/deserialize heterogeneous maps."
