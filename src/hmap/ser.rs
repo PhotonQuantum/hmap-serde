@@ -1,5 +1,4 @@
 use frunk_core::hlist::{HCons, HList, HNil};
-use ref_cast::RefCast;
 use serde::ser::SerializeMap;
 use serde::{Serialize, Serializer};
 
