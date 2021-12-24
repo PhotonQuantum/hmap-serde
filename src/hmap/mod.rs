@@ -1,5 +1,6 @@
-use frunk_core::hlist::HNil;
 use std::ops::{Deref, DerefMut};
+
+use frunk_core::hlist::HNil;
 
 mod de;
 mod ser;

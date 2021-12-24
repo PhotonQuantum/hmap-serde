@@ -1,11 +1,13 @@
-use frunk_core::hlist::HNil;
 use std::ops::{Deref, DerefMut};
+
+use frunk_core::hlist::HNil;
 
 mod convert;
 mod de;
 mod ser;
 #[cfg(test)]
 mod tests;
+mod utils;
 
 pub trait Labelled {
     const KEY: &'static str;

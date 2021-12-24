@@ -1,5 +1,6 @@
 use frunk_core::{hlist, HList};
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 
 use crate::{HLabelledMap, Labelled};
 
@@ -47,6 +48,19 @@ fn must_serialize_to_json() {
         s,
         "{\"a\":{\"a\":1},\"b\":{\"b1\":\"test\",\"b2\":false},\"c\":{\"c\":2}}"
     );
+}
+
+#[test]
+fn must_deserialize_owned_label() {
+    type List = HList![A];
+    let l: List = hlist![A { a: 1 }];
+    // let mut map = Map::new();
+    // map.insert(String::from("a"), json!({"a": 1}));
+    // let v = Value::Object(map);
+    let v = json!({"a": {"a": 1}});
+    let de: HLabelledMap<List> =
+        serde_json::from_value(v).expect("unable to deserialize owned label");
+    assert_eq!(HLabelledMap(l), de);
 }
 
 // TODO fuzzer

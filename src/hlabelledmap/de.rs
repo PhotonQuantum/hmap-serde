@@ -4,6 +4,8 @@ use frunk_core::hlist::{HCons, HNil};
 use serde::de::{IgnoredAny, MapAccess, Visitor};
 use serde::{Deserialize, Deserializer};
 
+use super::utils::deserialize_cow_str;
+
 use super::convert::{IntoHListFilled, IntoHListMaybeUnfilled, MaybeUnfilled};
 use super::{HLabelledMap, Labelled};
 
@@ -79,8 +81,8 @@ where
     where
         A: MapAccess<'de>,
     {
-        while let Some(key) = map.next_key()? {
-            self.maybe_unfilled.fill_by_name(key, &mut map)?;
+        while let Some(key) = deserialize_cow_str(&mut map)? {
+            self.maybe_unfilled.fill_by_name(&*key, &mut map)?;
         }
         Ok(HLabelledMap(self.maybe_unfilled.convert()?))
     }
