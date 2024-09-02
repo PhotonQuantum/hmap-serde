@@ -4,9 +4,12 @@ version = 3
 
 [[package]]
 name = "frunk_core"
-version = "0.4.2"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af2469fab0bd07e64ccf0ad57a1438f63160c69b2e57f04a439653d68eb558d6"
+checksum = "3529a07095650187788833d585c219761114005d5976185760cf794d265b6a5c"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "hmap-serde"
